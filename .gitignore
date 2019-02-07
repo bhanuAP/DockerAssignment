@@ -1,6 +1,5 @@
-./node_server/.idea/
-./node_server/node_modules/
 ./load_balancer/node_modules/
+./node_server/node_modules/
 ./load_balancer/package-lock.json
 ./node_server/package-lock.json
 ./load_balancer/logs/requestLogs.log
