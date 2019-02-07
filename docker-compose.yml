@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  web_server:
+    build: ./node_server
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./node_server:/app
+    environment:
+      - "PROXY=load_balancer"
+  load_balancer:
+    build: ./load_balancer
+    container_name: load_balancer
+    ports:
+      - '9000:8000'
+    volumes:
+      - ./load_balancer:/app
+
+  db:
+    image: postgres:9.6.2
+    volumes:
+      - storage:/var/lib/postgresql/data
+    restart: "always"
+
+volumes:
+  storage:
