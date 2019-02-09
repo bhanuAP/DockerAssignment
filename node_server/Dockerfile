@@ -2,10 +2,10 @@ FROM node
 
 WORKDIR /app
 
-COPY ./package*.json /app/
+COPY ./package*.json ./
 
-RUN ["npm", "install"]
+RUN npm install
 
-COPY . /app
+COPY . ./
 
-ENTRYPOINT ["npm", "run", "nodemon"]
+ENTRYPOINT ["npm", "start"]

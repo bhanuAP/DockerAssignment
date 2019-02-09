@@ -1,11 +1,11 @@
 const fs = require("fs");
 const express = require("express");
+const request = require("request");
 const ServiceHandler = require("./handler/serviceHandler");
 
 const app = express();
 const serviceHandler = new ServiceHandler();
 const timeStamp = () => new Date();
-
 
 app.use(express.json());
 
@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 });
 
 app.post('/register', (req, res) => {
-  let service = req.body.serviceName;
+  let service = req.body;
   serviceHandler.register(service);
   res.status(200);
   res.end();
@@ -27,6 +27,12 @@ app.post('/register', (req, res) => {
 
 app.get('/number', (req, res) => {
   let service = serviceHandler.getNextService();
+  request.get(`http://${service.name}:${service.port}/number`)
+  .on('response', function(response) {
+    console.log(response);
+    // console.log(response.statusCode)
+    // console.log(response.headers['content-type'])
+  });
   res.end();
 });
 

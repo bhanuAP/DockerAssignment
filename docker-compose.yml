@@ -3,19 +3,49 @@ version: '3'
 services:
   web_server:
     build: ./node_server
+    container_name: web_server
     ports:
       - '8000:8000'
     volumes:
       - ./node_server:/app
     environment:
-      - "PROXY=load_balancer"
+      - "SERVICE_NAME=web_server"
+      - "SERVICE_PORT=8000"
+      - "PROXY_NAME=load_balancer"
+      - "PROXY_PORT=9000"
+  web_server2:
+    build: ./node_server
+    container_name: web_server2
+    ports:
+      - '8001:8001'
+    volumes:
+      - ./node_server:/app
+    environment:
+      - "SERVICE_NAME=web_server"
+      - "SERVICE_PORT=8001"
+      - "PROXY_NAME=load_balancer"
+      - "PROXY_PORT=9000"
+  web_server3:
+    build: ./node_server
+    container_name: web_server3
+    ports:
+      - '8002:8002'
+    volumes:
+      - ./node_server:/app
+    environment:
+      - "SERVICE_NAME=web_server"
+      - "SERVICE_PORT=8002"
+      - "PROXY_NAME=load_balancer"
+      - "PROXY_PORT=9000"
   load_balancer:
     build: ./load_balancer
     container_name: load_balancer
     ports:
-      - '9000:8000'
+      - '9000:9000'
     volumes:
       - ./load_balancer:/app
+    environment:
+      - "SERVICE_PORT=9000"
 
   db:
     image: postgres:9.6.2
